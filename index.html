@@ -84,4 +84,87 @@
             <div class="glass-card overflow-hidden border-l-4 border-blue-600">
                 <div class="bg-blue-50 py-2 px-5 border-b border-blue-100 flex justify-between">
                     <h2 class="text-[10px] font-bold text-blue-700 uppercase tracking-widest">Lobster Combo</h2>
-                    <span class="text-[10px] font-bold text
+                    <span class="text-[10px] font-bold text-blue-300">$52.50 Base</span>
+                </div>
+                <div class="p-5 grid grid-cols-2">
+                    <div class="text-center border-r border-slate-100">
+                        <p class="text-[10px] font-bold text-blue-400 uppercase mb-1">Cash Total</p>
+                        <p id="combo1Cash" class="text-3xl font-bold text-blue-900">$0</p>
+                    </div>
+                    <div class="text-center">
+                        <p class="text-[10px] font-bold text-slate-400 uppercase mb-1">Card Total</p>
+                        <p id="combo1Card" class="text-3xl font-bold text-slate-700">$0</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="glass-card overflow-hidden border-l-4 border-slate-400">
+                <div class="bg-slate-50 py-2 px-5 border-b border-slate-200 flex justify-between">
+                    <h2 class="text-[10px] font-bold text-slate-600 uppercase tracking-widest">Luxury Combo</h2>
+                    <span class="text-[10px] font-bold text-slate-300">$61.00 Base</span>
+                </div>
+                <div class="p-5 grid grid-cols-2">
+                    <div class="text-center border-r border-slate-100">
+                        <p class="text-[10px] font-bold text-blue-400 uppercase mb-1">Cash Total</p>
+                        <p id="combo2Cash" class="text-3xl font-bold text-blue-900">$0</p>
+                    </div>
+                    <div class="text-center">
+                        <p class="text-[10px] font-bold text-slate-400 uppercase mb-1">Card Total</p>
+                        <p id="combo2Card" class="text-3xl font-bold text-slate-700">$0</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <details class="mt-10 group opacity-50 hover:opacity-100 transition-opacity">
+            <summary class="list-none text-[10px] font-bold text-slate-400 uppercase text-center cursor-pointer tracking-widest">Adjust Base Pricing</summary>
+            <div class="mt-4 p-5 bg-white rounded-2xl border border-slate-200 grid grid-cols-2 gap-6">
+                <div>
+                    <label class="text-[10px] font-bold text-slate-400 uppercase block mb-1">Combo 1 Base</label>
+                    <input type="number" id="c1Base" value="52.5" class="w-full border-b border-slate-200 pb-1 outline-none font-bold text-blue-600" oninput="calculate()">
+                </div>
+                <div>
+                    <label class="text-[10px] font-bold text-slate-400 uppercase block mb-1">Combo 2 Base</label>
+                    <input type="number" id="c2Base" value="61" class="w-full border-b border-slate-200 pb-1 outline-none font-bold text-blue-600" oninput="calculate()">
+                </div>
+            </div>
+        </details>
+    </div>
+
+    <script>
+        function calculate() {
+            const weight = parseFloat(document.getElementById('weight').value) || 0;
+            const priceLb = parseFloat(document.getElementById('priceLb').value) || 36.99;
+            const c1Base = parseFloat(document.getElementById('c1Base').value) || 52.5;
+            const c2Base = parseFloat(document.getElementById('c2Base').value) || 61;
+
+            const lobsterCost = weight * priceLb;
+
+            // ROUND UP logic
+            // Lobster Only
+            const aCash = Math.ceil(lobsterCost * 0.85);
+            const aCard = Math.ceil(lobsterCost * 0.90);
+            
+            // Combo 1 ($52.50) - 10% off base for cash
+            const c1Cash = Math.ceil(c1Base * 0.90) + aCash;
+            const c1Card = Math.ceil(c1Base) + aCard;
+
+            // Luxury Combo ($61.00)
+            const c2Cash = Math.ceil(c2Base) + aCash;
+            const c2Card = Math.ceil(c2Base) + aCard;
+
+            document.getElementById('partACash').innerText = '$' + aCash;
+            document.getElementById('partACard').innerText = '$' + aCard;
+            document.getElementById('combo1Cash').innerText = '$' + c1Cash;
+            document.getElementById('combo1Card').innerText = '$' + c1Card;
+            document.getElementById('combo2Cash').innerText = '$' + c2Cash;
+            document.getElementById('combo2Card').innerText = '$' + c2Card;
+        }
+
+        function clearInput() {
+            document.getElementById('weight').value = '';
+            calculate();
+        }
+    </script>
+</body>
+</html>
